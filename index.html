@@ -11,31 +11,36 @@
   <link href="https://fonts.googleapis.com/css2?family=Sansita+Swashed:wght@600;700;800;900&display=swap"
     rel="stylesheet" />
   <style>
-     *{
-        margin: 0;
-        padding: 0;
-        list-style: none;
-        overflow: hidden;
-      }
-    html,body {
-      height: 100%;
+    * {
+      margin: 0;
+      padding: 0;
+      list-style: none;
+      overflow: hidden;
+    }
+
+    html,
+    body {
       background: #36363a;
       position: relative;
     }
 
-    #btn{
-      height: 50%;
+    body {
+      height: 100vh;
+    }
+
+    #btn {
+      height: 30%;
       width: 100%;
       background-color: rgba(0, 0, 0, 0.8);
       position: absolute;
-      top: 25%;
+      top: 40%;
       z-index: 99;
       text-align: center;
       display: flex;
       justify-content: center;
       align-items: center;
       flex-direction: column;
-      
+
     }
 
     #btn input {
@@ -49,10 +54,14 @@
     }
 
     #box {
-      position: relative;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+      height: 100%;
     }
 
-    .txt{ 
+    .txt {
       font-family: "Sansita Swashed", cursive;
       text-align: center;
     }
@@ -132,7 +141,7 @@
 
     }
 
-    .sss{
+    .sss {
       animation: animation 0.5s 1 linear forwards;
 
     }
@@ -140,7 +149,7 @@
     .card:hover {
       /* animation: swing;
       animation-duration: 0.8s; */
-      cursor: pointer;  
+      cursor: pointer;
     }
 
     .card_front {
@@ -192,152 +201,154 @@
       <div id="game" style="border-spacing: 20px">
       </div>
     </div>
+  </div>
 
 
-    <script src="./jquery-3.5.1.min.js"></script>
-    <script>
+  <script src="./jquery-3.5.1.min.js"></script>
+  <script>
 
-      const totalCards = 15;
-      let minutes = '0'+'0'
-      let seconds = '0'+'0'
-      let tens = '0'+'0' 
-      $("#tens").text(tens)
-      $("#seconds").text(seconds)
-      $("#minutes").text(minutes)
+    const totalCards = 15;
+    let minutes = '0' + '0'
+    let seconds = '0' + '0'
+    let tens = '0' + '0'
+    $("#tens").text(tens)
+    $("#seconds").text(seconds)
+    $("#minutes").text(minutes)
 
-      const startGame=()=> {
-        for (let i = 0; i < totalCards; i++) {
-          $('#game').append(`
-          <div  class="card close ">
-            <div class="card_back "></div>
-            <div class="card_front "></div>
+    const startGame = () => {
+      for (let i = 0; i < totalCards; i++) {
+        $('#game').append(`
+          <div class="card close">
+            <div class="card_back"></div>
+            <div class="card_front"></div>
           </div>
           `)
-          if(i <= 7){
+        if (i <= 7) {
 
           const number = Math.floor(i % (totalCards / 2) + 1)
-          
+
           $('.card').eq(i).find('.card_front').css('background-image', `url(./images/Q${number}.png)`)
           $('.card').eq(i).attr('data-card', number)
 
-          if(number ===8){
+          if (number === 8) {
             $('.card').eq(i).find('.card_front').css('background-image', `url(./images/Q8.gif)`)
           }
-          } 
+        }
 
-          if(i >7){
-            const number = Math.floor(i % (totalCards / 2) + 1)
-          
+        if (i > 7) {
+          const number = Math.floor(i % (totalCards / 2) + 1)
+
           $('.card').eq(i).find('.card_front').css('background-image', `url(./images/A${number}.png)`)
           $('.card').eq(i).attr('data-card', number)
-          }
-
-
-          const target = Math.floor(Math.random() * 16)
-          $('.card').eq(target).insertAfter($('.card').eq(i))
         }
+
+
+        const target = Math.floor(Math.random() * 16)
+        $('.card').eq(target).insertAfter($('.card').eq(i))
       }
-    
+    }
 
-        const startTimer = () => {
-          $("#tens").val(tens++)
 
-          if(tens < 9){
-          $('#tens').html( "0" + tens);
-          }
-            
-          if (tens > 9){
-            $('#tens').html(tens);
-              
-          } 
-            
-          if (tens > 99) {
-            seconds++;
-            $('#seconds').html("0" + seconds);
-            tens = 0;
-            $('#tens').html("0"+0);
-          }
-            
-          if (seconds > 9){
-            $('#seconds').html(seconds);
-          }
+    const startTimer = () => {
+      $("#tens").val(tens++)
 
-          if(seconds>=60){
-            minutes++;
-            $('#minutes').html("0" + minutes);
-            seconds=0
-          }
-          }
+      if (tens < 9) {
+        $('#tens').html("0" + tens);
+      }
 
+      if (tens > 9) {
+        $('#tens').html(tens);
+
+      }
+
+      if (tens > 99) {
+        seconds++;
+        $('#seconds').html("0" + seconds);
+        tens = 0;
+        $('#tens').html("0" + 0);
+      }
+
+      if (seconds > 9) {
+        $('#seconds').html(seconds);
+      }
+
+      if (seconds >= 60) {
+        minutes++;
+        $('#minutes').html("0" + minutes);
+        seconds = 0
+      }
+    }
+
+    startGame()
+
+    $('#btn').on('click', '#bt', function () {
+      $('#game').html('')
       startGame()
-
-      $('#btn').on('click','#bt',function(){
-        $('#game').html('')
-        startGame()
-        let start = 
-        setInterval(()=>{
-        startTimer()
-      },10)
+      let start =
+        setInterval(() => {
+          startTimer()
+        }, 10)
       $('#btn').addClass('animate__slideOutLeft').removeClass('animate__bounceIn')
 
-      $('#game').on('click', '.card', function () {   
+      $('#game').on('click', '.card', function () {
         console.log($('.card:not(.close)').length)
-        if ($('.card:not(.close)').length < ($('.sss').length + 2)  ) {
+        if ($('.card:not(.close)').length < ($('.sss').length + 2)) {
 
-          if($(this).attr('data-card') == 8) {
-        
-          setTimeout(() => {
-            ($('.card')).addClass('close').removeClass('open').removeClass('sss')
-          }, 500);
-        }
+          if ($(this).attr('data-card') == 8) {
+
+            setTimeout(() => {
+              ($('.card')).addClass('close').removeClass('open').removeClass('sss')
+            }, 500);
+          }
           $(this).removeClass('close').addClass('open')
         }
 
-        if ($('.open').length ===  2) {
+        if ($('.open').length === 2) {
           console.log($('.open').eq(0).attr('data-card'))
           console.log($('.open').eq(1).attr('data-card'))
           if ($('.open').eq(0).attr('data-card') === $('.open').eq(1).attr('data-card')) {
             $('.open').addClass('sss').removeClass('open').removeClass('close')
-            
-          } else { 
-            
-          setTimeout(() => {
-            ($('.open')).addClass('close').removeClass('open')
-          }, 1000);
+
+          } else {
+
+            setTimeout(() => {
+              ($('.open')).addClass('close').removeClass('open')
+            }, 1000);
           }
         }
 
 
-        if ($('.sss').length === (totalCards-1)) {
+        if ($('.sss').length === (totalCards - 1)) {
           clearInterval(start)
-  
+
           setTimeout(() => {
             $("#btn").addClass('animate__slideInLeft').removeClass('animate__slideOutLeft')
-            $('#btn').css({'font-size': '25px','color': 'aliceblue'}).html(` <input id="btt" type="button" value="try again"> <p>【過關】您花了${minutes}分${seconds}秒${tens}</p>`)
+            $('#btn').css({ 'font-size': '25px', 'color': 'aliceblue' }).html(` <input id="btt" type="button" value="try again"> <p>【過關】您花了${minutes}分${seconds}秒${tens}</p>`)
           }, 1500);
 
           setTimeout(() => {
             // location.reload()
-          minutes = 0
-          seconds = 0
-          tens = 0
-          // $('#game').text('')
-          // startGame()
-          // $('#game').on('click','.card',function(){
-          //   $('.card').addClass('close')
-          // })
-        $("#tens").text('00')
-        $("#seconds").text("00")
-        $("#minutes").text("00")
+            minutes = 0
+            seconds = 0
+            tens = 0
+            // $('#game').text('')
+            // startGame()
+            // $('#game').on('click','.card',function(){
+            //   $('.card').addClass('close')
+            // })
+            $("#tens").text('00')
+            $("#seconds").text("00")
+            $("#minutes").text("00")
           }, 5000);
 
-          $('#btn').on('click','#btt',function(){
+          $('#btn').on('click', '#btt', function () {
             location.reload()
           })
 
         }
       })
-      })
-</script>
+    })
+  </script>
 </body>
+
 </html>
