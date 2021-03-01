@@ -290,7 +290,7 @@
       $('#btn').addClass('animate__slideOutLeft').removeClass('animate__bounceIn')
 
       $('#game').on('click', '.card', function () {
-        console.log($('.card:not(.close)').length)
+        // console.log($('.card:not(.close)').length)
         if ($('.card:not(.close)').length < ($('.sss').length + 2)) {
 
           if ($(this).attr('data-card') == 8) {
@@ -303,8 +303,8 @@
         }
 
         if ($('.open').length === 2) {
-          console.log($('.open').eq(0).attr('data-card'))
-          console.log($('.open').eq(1).attr('data-card'))
+          // console.log($('.open').eq(0).attr('data-card'))
+          // console.log($('.open').eq(1).attr('data-card'))
           if ($('.open').eq(0).attr('data-card') === $('.open').eq(1).attr('data-card')) {
             $('.open').addClass('sss').removeClass('open').removeClass('close')
 
